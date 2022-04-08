@@ -13,14 +13,14 @@ public class LoginService {
     @Autowired
     UeUserMapper  ueUserMapper;
 
-    public Map getUser(String account,String password){
+    public Map getUser(String username,String password){
 
-        UeUser ueUser = ueUserMapper.selectByAccount(account);
+        UeUser ueUser = ueUserMapper.selectByUsername(username);
 
         Map map = new HashMap();
 
         if (ueUser != null) {
-
+            //数据库查找结果 与 用户输入的密码 进行比较
             if(ueUser.getPassword().equals(password)){
                 //密码正确
                 Map map1 = new HashMap();
@@ -31,20 +31,22 @@ public class LoginService {
                 map1.put("userInfo",map2);
                 map.put("result",map1);
                 //{result={isLogin=success, userInfo={level=null, username=lizhi}}}
-                System.out.println("账号密码正确"+map.toString());
-
+                System.out.println("LoginService：账号密码正确"+map.toString());
             }
             else{
                 //密码不正确
                 Map map1 = new HashMap();
                 map1.put("isLogin","fail");
                 map.put("result",map1);
+                System.out.println("LoginService：账号密码不正确"+map.toString());
             }
         }
         else{
+            //数据库查询账号返回null
             Map map1 = new HashMap();
             map1.put("isLogin","fail");
             map.put("result",map1);
+            System.out.println("LoginService：账号不存在"+map.toString());
         }
 
         return map;

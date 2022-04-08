@@ -32,4 +32,6 @@ public interface UeUserMapper {
     int updateByPrimaryKey(UeUser record);
 
     UeUser selectByAccount(String account);
+
+    UeUser selectByUsername(String username);
 }
